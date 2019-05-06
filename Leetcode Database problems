@@ -1,0 +1,31 @@
+###Leetcode Database 
+
+##Q1 combine two tables
+SELECT FirstName, LastName, City, State FROM Person 
+LEFT JOIN Address ON PErson.PersonId = Address.PersonId
+
+#We are unable to use Where here because of the requirement 'regardless if there is an address for each of those people'
+#regardless" means that if a person doesn't have a proper address in Address relation, it should also appear in the result with the city and state being null. Therefore, using only where can't fulfill this requirement
+
+
+##Q2 Second highest salary
+#if the second highest salary is not guaranteed to exist
+SELECT MAX(Salary) AS SecondHighestSalary FROM Employee
+WHERE Salary < (SELECT MAX(Salary) FROM Employee)
+
+#If it is guaranteed, use limit offset method
+#option2
+SELECT DISTINCT Salary AS SecondHighestSalary From Employee
+Order by Salary DESC
+Limit 1 OFFSET 1
+
+
+##Q3 Employees earning more than their managers
+SELECT a.Name AS Employee FROM Employee a, Employee b
+WHERE a.ManagerId = b.Id AND a.Salary > b.Salary;
+
+##Q4 duplicate emails
+SELECT Email FROM Person
+Group by Email
+HAVING count(Email)>1;
+
